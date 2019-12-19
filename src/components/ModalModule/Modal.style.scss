@@ -1,0 +1,29 @@
+@import "@/assets/_variables.scss";
+
+.modal-backdrop-click {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $backdrop-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .modal {
+    border-radius: 4px;
+    background-color: $white-background-color;
+    padding: 15px;
+    width: 650px;
+    min-height: 300px;
+    .modal-title {
+      font-weight: 600;
+      font-size: 24px;
+      color: $black-font-color;
+      margin-bottom: 10px;
+    }
+    .modal-body {
+
+    }
+  }
+}

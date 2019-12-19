@@ -1,0 +1,15 @@
+@import "./reset";
+@import "./variables";
+
+body {
+	font-family: $main-font;
+}
+
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity .2s;
+}
+.modal-fade-enter,
+.modal-fade-leave-to {
+  opacity: 0;
+}
