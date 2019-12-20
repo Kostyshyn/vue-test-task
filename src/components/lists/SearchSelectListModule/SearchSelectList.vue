@@ -5,10 +5,11 @@
     </div>
     <List :items="selected" @click.native="editList" />
     <transition name="modal-fade" mode="out-in">
-      <Modal title="Edit list 1" @close="closeModal" v-if="modalOpen">
+      <Modal title="Edit list 2" @close="closeModal" v-if="modalOpen">
 
         <Select
           multiple
+          search
           :options="items"
           :state="selected"
           @onSelect="onSelect" />
@@ -18,5 +19,5 @@
   </div>
 </template>
 
-<script src="./MultiSelectList.component.js"></script>
-<style lang="scss" src="./MultiSelectList.style.scss"></style>
+<script src="./SearchSelectList.component.js"></script>
+<style lang="scss" src="./SearchSelectList.style.scss"></style>

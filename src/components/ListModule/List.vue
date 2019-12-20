@@ -3,8 +3,8 @@
     <div class="list" v-if="items && items.length">
       <span class="list-item" v-for="(item, i) in items" :key="i">
         {{ item.label }}
-        <span class="nested-list-item" v-if="item.subItem">
-          {{ item.subItem.label }}
+        <span class="nested-list-item" v-if="item.subOption">
+          {{ item.subOption.label }}
         </span>
       </span>
     </div>

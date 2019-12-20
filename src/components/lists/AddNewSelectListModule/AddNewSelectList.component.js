@@ -4,14 +4,14 @@ import Modal from "@/components/ModalModule/Modal.vue";
 import Select from "@/components/SelectModule/Select.vue";
 
 export default {
-	name: "MultiSelectList",
+	name: "AddNewSelectList",
 	components: {
 		List,
 		Modal,
 		Select
 	},
 	data: () => ({
-		title: "Multi Select List 1",
+		title: "Add New Select List 4",
 		modalOpen: false,
 		items: data,
 		selected: []

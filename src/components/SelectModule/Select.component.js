@@ -2,6 +2,10 @@ export default {
   name: "Select",
   components: {},
   props: {
+    state: {
+      type: Array,
+      default: () => []
+    },
     multiple: {
       type: Boolean,
       default: false
@@ -39,12 +43,20 @@ export default {
     }
   },
   methods: {
-    select(option) {
+    select(option, nested) {
       this.showAddNewInput = false;
       if (this.multiple && !this.nested) {
         this.selected.push(option);
       } else if (this.multiple && this.nested) {
-        console.log("nested");
+        if (!nested) {
+          this.selected.push(option);
+          return;
+        }
+        const o = {
+          ...option,
+          subOption: nested
+        };
+        this.selected.push(o);
       } else {
         this.selected = [option];
       }
@@ -71,7 +83,14 @@ export default {
       this.selected.push(newOption);
     }
   },
-  created() {
-    // this.$emit("onSelect", "event");
+  watch: {
+    selected: function (newSelected) {
+      this.$emit("onSelect", newSelected);
+    }
+  },
+  created(){
+    if (this.state && this.state.length) {
+      this.selected = this.state;
+    }
   }
 };

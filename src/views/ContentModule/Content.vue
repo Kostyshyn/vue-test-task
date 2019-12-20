@@ -1,6 +1,9 @@
 <template>
   <div class="content">
 		<MultiSelectList />
+		<SearchSelectList />
+		<NestedSelectList />
+		<AddNewSelectList />
   </div>
 </template>
 

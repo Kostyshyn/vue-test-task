@@ -5,12 +5,13 @@
     </div>
     <List :items="selected" @click.native="editList" />
     <transition name="modal-fade" mode="out-in">
-      <Modal title="Edit list 1" @close="closeModal" v-if="modalOpen">
+      <Modal title="Edit list 3" @close="closeModal" v-if="modalOpen">
 
         <Select
           multiple
+          nested
           :options="items"
-          :state="selected"
+          :state="selected" 
           @onSelect="onSelect" />
 
       </Modal>
@@ -18,5 +19,5 @@
   </div>
 </template>
 
-<script src="./MultiSelectList.component.js"></script>
-<style lang="scss" src="./MultiSelectList.style.scss"></style>
+<script src="./NestedSelectList.component.js"></script>
+<style lang="scss" src="./NestedSelectList.style.scss"></style>
