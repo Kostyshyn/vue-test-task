@@ -22,6 +22,10 @@ export default {
       type: Boolean,
       default: false
     },
+    custom: {
+      type: Boolean,
+      default: false
+    },
     options: {
       type: Array,
       default: () => []
@@ -66,7 +70,7 @@ export default {
       this.selected = this.selected.filter(s => s.value !== option.value);
     },
     addNewInput() {
-      if (this.addNew) {
+      if (this.addNew || this.custom) {
         this.showAddNewInput = true;
         this.$nextTick(() => {
           this.$refs["addNewInput"].focus();
@@ -80,7 +84,11 @@ export default {
         label: value,
         value: value.toLowerCase().replace(/[.,/#!$%^&*;:{}|=\-_`~()]/g,"").replace(/\s/g, "_")
       };
-      this.selected.push(newOption);
+      if (this.multiple) {
+        this.selected.push(newOption);
+      } else {
+        this.selected = [newOption];
+      }
     }
   },
   watch: {

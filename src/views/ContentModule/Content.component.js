@@ -2,8 +2,7 @@ import MultiSelectList from "@/components/lists/MultiSelectListModule/MultiSelec
 import SearchSelectList from "@/components/lists/SearchSelectListModule/SearchSelectList.vue";
 import NestedSelectList from "@/components/lists/NestedSelectListModule/NestedSelectList.vue";
 import AddNewSelectList from "@/components/lists/AddNewSelectListModule/AddNewSelectList.vue";
-
-import { mapActions } from 'vuex';
+import CustomSelectList from "@/components/lists/CustomSelectListModule/CustomSelectList.vue";
 
 export default {
   name: "Content",
@@ -11,15 +10,7 @@ export default {
     MultiSelectList,
     SearchSelectList,
     NestedSelectList,
-    AddNewSelectList
-  },
-  data: () => ({}),
-  methods: {
-  	...mapActions(["setHeaderItems"])
-  },
-  created() {
-  	setTimeout(() => {
-  		this.setHeaderItems(["test 1", "test 2", "test 3"]);
-  	}, 1000);
+    AddNewSelectList,
+    CustomSelectList
   }
 };

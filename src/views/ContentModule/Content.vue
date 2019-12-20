@@ -4,6 +4,7 @@
 		<SearchSelectList />
 		<NestedSelectList />
 		<AddNewSelectList />
+		<CustomSelectList />
   </div>
 </template>
 

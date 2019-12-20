@@ -51,6 +51,9 @@
     <div class="empty" v-else>
     	No data
     </div>
+    <div class="create-new" v-if="custom" @click="addNewInput">
+    	Create new
+    </div>
   </div>
 </template>
 

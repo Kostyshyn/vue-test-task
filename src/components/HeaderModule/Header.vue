@@ -1,7 +1,7 @@
 <template>
   <header>
     <ul>
-      <li v-for="(item, i) in headerItems" :key="i">{{ item }}</li>
+      <li v-for="(item, i) in headerItems" :key="i">{{ item.label }}</li>
     </ul>
   </header>
 </template>

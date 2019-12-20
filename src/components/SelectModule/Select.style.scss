@@ -101,4 +101,15 @@
 		font-weight: 600px;
 		color: $light-grey-color;
 	}
+	.create-new {
+		cursor: pointer;
+		text-align: center;
+		min-width: 30px;
+		padding: 10px;
+		margin-top: 5px;
+		border-radius: 4px;
+		color: $white-font-color;
+		background-color: $primary-color;
+		font-size: 16px;
+	}
 }
