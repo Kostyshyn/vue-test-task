@@ -32,23 +32,54 @@ export default {
     }
   },
   data: () => ({
-    searchInput: "",
+    selectInput: "",
     selected: [],
-    showAddNewInput: false
+    showSelectInput: false,
+    showDropdown: false,
+    clickDelay: 250,
+    clickCount: 0,
+    clickTimer: null,
+    dropdownPos: null,
+    customAddNew: false,
+    init: true
   }),
   computed: {
     searchOptions() {
       const toSelect = this.options.filter(o => (!this.selected.some(s => s.value === o.value)));
-      if (this.search && this.searchInput && this.searchInput.trim()) {
-        return toSelect.filter(o => (o.label.toLowerCase().includes(this.searchInput.toLowerCase().trim())));
+      if (this.search && this.selectInput && this.selectInput.trim()) {
+        return toSelect.filter(o => (o.label.toLowerCase().includes(this.selectInput.toLowerCase().trim())));
       } else {
         return toSelect;
       }
+    },
+    placeholder() {
+      return (this.addNew || this.customAddNew) ? "Add new option" : "Search...";
+    },
+    empty() {
+      return !(this.selected && this.selected.length) && !this.showSelectInput;
     }
   },
   methods: {
+    handleClick() {
+      this.clickCount++;
+      if (this.clickCount === 1) {
+        this.clickTimer = setTimeout(() => {
+          this.clickCount = 0;
+          this.toggleDropdown();
+        }, this.clickDelay);
+      } else if (this.clickCount === 2 && this.showDropdown) {
+        clearTimeout(this.clickTimer);
+        this.clickCount = 0;
+        this.addNewInput();
+      }
+    },
+    toggleDropdown() {
+      this.showDropdown = !this.showDropdown;
+      this.setDropdownPos();
+    },
     select(option, nested) {
-      this.showAddNewInput = false;
+      this.selectInput = "";
+      this.showSelectInput = false;
       if (this.multiple && !this.nested) {
         this.selected.push(option);
       } else if (this.multiple && this.nested) {
@@ -62,43 +93,86 @@ export default {
         };
         this.selected.push(o);
       } else {
+        this.showDropdown = false;
         this.selected = [option];
       }
+      this.setDropdownPos();
     },
     deselect(option) {
-      this.showAddNewInput = false;
+      this.selectInput = "";
+      this.showSelectInput = false;
       this.selected = this.selected.filter(s => s.value !== option.value);
+      this.setDropdownPos();
     },
     addNewInput() {
-      if (this.addNew || this.custom) {
-        this.showAddNewInput = true;
+      if (this.search || this.addNew || this.customAddNew) {
+        this.showSelectInput = true;
         this.$nextTick(() => {
-          this.$refs["addNewInput"].focus();
+          this.$refs["selectInput"].focus();
+          this.setDropdownPos();
         });
       }
     },
     addNewOption() {
-      this.showAddNewInput = false;
-      const { value } = this.$refs["addNewInput"];
-      const newOption = {
-        label: value,
-        value: value.toLowerCase().replace(/[.,/#!$%^&*;:{}|=\-_`~()]/g,"").replace(/\s/g, "_")
-      };
-      if (this.multiple) {
-        this.selected.push(newOption);
-      } else {
-        this.selected = [newOption];
+      if (this.addNew || this.customAddNew) {
+        this.showSelectInput = false;
+        const value = this.selectInput;
+        const newOption = {
+          label: value,
+          value: value.toLowerCase().replace(/[.,/#!$%^&*;:{}|=\-_`~()]/g,"").replace(/\s/g, "_")
+        };
+        if (this.multiple) {
+          this.selected.push(newOption);
+        } else {
+          this.selected = [newOption];
+        }
+        this.selectInput = "";
+        this.setDropdownPos();
       }
+    },
+    setDropdownPos() {
+      if (this.searchOptions.length && this.showDropdown) {
+        this.$nextTick(() => {
+          const selectedHeight = this.$refs["selectedEl"].clientHeight;
+          this.dropdownPos = `${ selectedHeight + 4 }px`;
+        });
+      }
+    },
+    toggleCustomAddNew() {
+      this.clear();
+      this.customAddNew = !this.customAddNew;
+      if (this.customAddNew) {
+        this.addNewInput();
+      } else {
+        this.showSelectInput = false;
+        this.selectInput = "";
+        this.setDropdownPos();
+      }
+    },
+    clear() {
+      this.selected = [];
+    },
+    hideSelectInput() {
+      // if (this.showSelectInput) {
+      //   this.showSelectInput = false;
+      //   if (this.showDropdown) {
+      //     this.setDropdownPos();
+      //   }
+      // }
     }
   },
   watch: {
     selected: function (newSelected) {
-      this.$emit("onSelect", newSelected);
+      this.$emit("onSelect", {
+        payload: newSelected,
+        init: this.init
+      });
+      this.init = false;
     }
   },
   created(){
     if (this.state && this.state.length) {
-      this.selected = this.state;
+      this.selected = [...this.state];
     }
   }
 };

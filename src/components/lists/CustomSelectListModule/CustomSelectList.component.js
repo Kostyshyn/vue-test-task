@@ -15,7 +15,8 @@ export default {
 		title: "Custom Select List 5",
 		modalOpen: false,
 		items: data,
-		selected: []
+		selected: [],
+		toSelect: []
 	}),
 	computed: {},
 	methods: {
@@ -25,10 +26,16 @@ export default {
 		},
 		closeModal() {
 			this.modalOpen = false;
+			this.toSelect = [];
 		},
 		onSelect(selected) {
-			this.selected = selected;
-			this.setHeaderItems(selected);
+			this.toSelect = selected.payload;
+		},
+		save() {
+			this.selected = [...this.toSelect];
+			this.setHeaderItems(this.toSelect);
+			this.toSelect = [];
+			this.closeModal();
 		}
 	},
 	created() {

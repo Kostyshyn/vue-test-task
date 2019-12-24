@@ -26,5 +26,19 @@ export default [
 				value: "sub_item_3_1"
 			}
 		]
+	},
+	{
+		label: "test item 4",
+		value: "test_item_4"
+	},
+	{
+		label: "test item 5",
+		value: "test_item_5",
+		subItems: [
+			{
+				label: "sub item 5 1",
+				value: "sub_item_5_1"
+			}
+		]
 	}
 ];

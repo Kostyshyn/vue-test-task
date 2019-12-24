@@ -13,6 +13,8 @@
           :state="selected"
           @onSelect="onSelect" />
 
+        <button class="save-selected" @click="save">Save</button>
+
       </Modal>
     </transition>
   </div>

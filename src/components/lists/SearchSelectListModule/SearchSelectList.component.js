@@ -14,7 +14,8 @@ export default {
 		title: "Search Select List 2",
 		modalOpen: false,
 		items: data,
-		selected: []
+		selected: [],
+		toSelect: []
 	}),
 	computed: {},
 	methods: {
@@ -25,7 +26,12 @@ export default {
 			this.modalOpen = false;
 		},
 		onSelect(selected) {
-			this.selected = selected;
+			this.toSelect = selected.payload;
+		},
+		save() {
+			this.selected = [...this.toSelect];
+			this.toSelect = [];
+			this.closeModal();
 		}
 	},
 	created() {

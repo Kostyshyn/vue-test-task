@@ -14,7 +14,8 @@ export default {
 		title: "Multi Select List 1",
 		modalOpen: false,
 		items: data,
-		selected: []
+		selected: [],
+		toSelect: []
 	}),
 	computed: {},
 	methods: {
@@ -23,9 +24,15 @@ export default {
 		},
 		closeModal() {
 			this.modalOpen = false;
+			this.toSelect = [];
 		},
 		onSelect(selected) {
-			this.selected = selected;
+			this.toSelect = selected.payload;
+		},
+		save() {
+			this.selected = [...this.toSelect];
+			this.toSelect = [];
+			this.closeModal();
 		}
 	},
 	created() {

@@ -1,30 +1,32 @@
 <template>
-  <div class="select">
-  	<div class="selected" @click.self="addNewInput">
+  <div class="select" :class="{ 'nested': nested }">
+  	<div 
+      class="selected"
+      :class="{ 'empty-select': empty }"
+      ref="selectedEl"
+      @click.self="handleClick">
       <span 
-      	class="selected-option" 
+      	class="selected-option"
       	v-for="(option, i) in selected" 
       	:key="i" 
       	@click.stop="deselect(option)">
-        {{ option.label }}
-        <span class="nested-selected-option" v-if="option.subOption">
-          {{ option.subOption.label }}
-        </span> ✖
+        {{ option.label }} ✖
       </span>
       <input
-      	class="add-input"
+      	class="select-input"
       	type="text"
-      	placeholder="Add new option" 
-      	v-if="showAddNewInput" 
-      	ref="addNewInput"
-      	@keyup.enter="addNewOption"> 		
+      	:placeholder="placeholder"
+        v-model="selectInput"
+      	v-if="showSelectInput" 
+      	ref="selectInput"
+      	@keyup.enter="addNewOption"
+        @blur="hideSelectInput">
+        <div class="dropdown-toggle" @click="toggleDropdown">{{ showDropdown ? "▲" : "▼" }}</div> 		
   	</div>
-		<div class="search-input" v-if="search">
-			<input type="text" placeholder="Search..." v-model="searchInput">
-		</div>
   	<ul
   		class="options" 
-  		v-if="searchOptions && searchOptions.length">
+      :style="{ top: dropdownPos }"
+  		v-if="searchOptions && searchOptions.length && showDropdown">
       <li
 	      v-for="(option, i) in searchOptions" 
 	      :key="i"> 
@@ -33,27 +35,11 @@
 	      	@click.self="select(option)">
 	        {{ option.label }}
       	</span>
-        <ul 
-        	class="nested-options" 
-        	v-if="nested && option.subItems && option.subItems.length">
-        	<li
-        		v-for="(subOption, k) in option.subItems" 
-	        	:key="k">
-        		<span
-	        		class="nested-option"
-	        		@click.self="select(option, subOption)">
-	          	{{ subOption.label }}
-        		</span>
-        	</li>
-        </ul>
+      </li>
+      <li class="add-new" v-if="custom" @click="toggleCustomAddNew">
+        {{ customAddNew ? "Select" : "Add new" }}
       </li>
     </ul>
-    <div class="empty" v-else>
-    	No data
-    </div>
-    <div class="create-new" v-if="custom" @click="addNewInput">
-    	Create new
-    </div>
   </div>
 </template>
 
